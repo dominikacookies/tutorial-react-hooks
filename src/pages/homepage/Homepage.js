@@ -25,8 +25,11 @@ const Homepage = () => {
     <div>
       <h1>Welcome to NameAge!</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("name", { required: true })} />
-        {errors.name && <span>"Please enter a name"</span>}
+        <input {...register("name", { required: true, minLength: 3 })} />
+        {errors.name && (
+          <span>Please enter a name that's at least 3 letters long.</span>
+        )}
+        <button type="submit">Get age!</button>
       </form>
       {age ? (
         <AgeInformationCard age={age} name={name} />
