@@ -1,0 +1,40 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import AgeInformationCard from "../../components/ageInformationCard/AgeInformationCard";
+const Homepage = () => {
+  const [name, setName] = useState();
+  const [age, setAge] = useState();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    if (name) {
+      axios.get(`https://api.agify.io/?name=${name}`).then((response) => {
+        setAge(response.data.age);
+      });
+    }
+  }, [name]);
+
+  const onSubmit = (data) => setName(data.name);
+
+  return (
+    <div>
+      <h1>Welcome to NameAge!</h1>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("name", { required: true })} />
+        {errors.name && <span>"Please enter a name"</span>}
+      </form>
+      {age ? (
+        <AgeInformationCard age={age} name={name} />
+      ) : (
+        <p> Enter a name and we'll predict your age!</p>
+      )}
+    </div>
+  );
+};
+
+export default Homepage;
