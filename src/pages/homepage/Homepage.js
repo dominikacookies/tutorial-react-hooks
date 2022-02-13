@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+
 import AgeInformationCard from "../../components/ageInformationCard/AgeInformationCard";
+import "./homepage.css";
+
 const Homepage = () => {
   const [name, setName] = useState();
   const [age, setAge] = useState();
@@ -22,21 +25,23 @@ const Homepage = () => {
   const onSubmit = (data) => setName(data.name);
 
   return (
-    <div>
-      <h1>Welcome to NameAge!</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("name", { required: true, minLength: 3 })} />
-        {errors.name && (
-          <span>Please enter a name that's at least 3 letters long.</span>
+    <main>
+      <div className="homepage-container">
+        <h1>Welcome to NameAge!</h1>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input {...register("name", { required: true, minLength: 3 })} />
+          {errors.name && (
+            <span>Please enter a name that's at least 3 letters long.</span>
+          )}
+          <button type="submit">Get age!</button>
+        </form>
+        {age ? (
+          <AgeInformationCard age={age} name={name} />
+        ) : (
+          <p> Enter a name and we'll predict your age!</p>
         )}
-        <button type="submit">Get age!</button>
-      </form>
-      {age ? (
-        <AgeInformationCard age={age} name={name} />
-      ) : (
-        <p> Enter a name and we'll predict your age!</p>
-      )}
-    </div>
+      </div>
+    </main>
   );
 };
 
