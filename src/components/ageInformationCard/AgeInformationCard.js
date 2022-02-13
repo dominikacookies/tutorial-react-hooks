@@ -1,6 +1,9 @@
 import React from "react";
 
-const AgeInformationCard = ({ name, age }) => {
+import { usePersonContext } from "../../context/PersonContext";
+
+const AgeInformationCard = () => {
+  const { name, age } = usePersonContext();
   return (
     <h2>
       {name} is {age} years old!
